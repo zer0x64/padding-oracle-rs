@@ -2,7 +2,7 @@
 //! See [decrypt] or the examples on how to use.
 
 #![no_std]
-#![feature(error_in_core)]
+#![cfg_attr(not(feature="std"), feature(error_in_core))]
 
 extern crate alloc;
 use alloc::vec::Vec;
@@ -90,9 +90,7 @@ pub fn decrypt(ciphertext: &[u8], blocksize: usize, oracle: fn(&[u8]) -> bool) -
                 ciphertext[offset + j] = i as u8 ^ plaintext[j - 1] ^ ciphertext[offset + j];
             }
 
-            let mut found = false;
-
-            for k in 0..=255u8 {
+            match (0..=255u8).find_map(|k| {
                 ciphertext[offset] = k;
 
                 if oracle(&ciphertext) {
@@ -105,16 +103,14 @@ pub fn decrypt(ciphertext: &[u8], blocksize: usize, oracle: fn(&[u8]) -> bool) -
 
                         oracle(&ciphertext)
                     } {
-                        plaintext.insert(0, initial_byte ^ k ^ i as u8);
-                        found = true;
-                        break;
+                        return Some(k);
                     };
                 }
-            }
 
-            if !found {
-                // If no byte worked, something went wrong
-                return Err(Error::InvalidPadding);
+                None
+            }) {
+                Some(k) => plaintext.insert(0, initial_byte ^ k ^ i as u8),
+                None => return Err(Error::InvalidPadding)
             }
         }
 
