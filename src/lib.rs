@@ -48,19 +48,19 @@ type Result<T> = core::result::Result<T, Error>;
 /// }
 ///
 /// # let plaintext = b"000000Now that the party is jumping";
-///
+/// #
 /// # let mut ciphertext = vec![0u8; (plaintext.len() / 16 + 1) * 16];
-///
+/// #
 /// # ciphertext[..plaintext.len()].copy_from_slice(plaintext);
 /// # let ciphertext = Aes128CbcEnc::new(&KEY.into(), &IV.into())
 /// #    .encrypt_padded_mut::<Pkcs7>(&mut ciphertext, plaintext.len())
 /// #    .unwrap();
-///
+/// #
 /// # let mut iv = IV.to_vec();
-///
+/// #
 /// # iv.extend_from_slice(ciphertext);
 /// # let ciphertext = iv;
-///
+/// #
 /// // Perform the attack
 /// let plaintext = padding_oracle::decrypt(&ciphertext, 16, oracle).unwrap();
 ///```
