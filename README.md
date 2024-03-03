@@ -1,2 +1,2 @@
 # padding-oracle-rs
-A simple Rust crate to exploit CBC padding oracles
+A simple Rust crate to exploit CBC-PKCS7 padding oracles
