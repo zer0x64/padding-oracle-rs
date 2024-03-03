@@ -2,6 +2,12 @@
 name = "padding-oracle"
 version = "0.1.0"
 edition = "2021"
+authors = ["zer0x64"]
+license = "Apache-2.0 OR MIT"
+documentation = "https://docs.rs/padding-oracle"
+repository = "https://github.com/zer0x64/padding-oracle-rs"
+description = "A simple Rust crate to exploit CBC-PKCS7 padding oracles"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
